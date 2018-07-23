@@ -12,9 +12,9 @@ $ npm install --save aem-utils
 ## Usage
 
 You need a config json file for aem-utils which it can use to generate AEM client library
-Sample file:
 
-```json
+Sample config json:
+```
 {
 	"clientLibsConfig": {
 		"clientLib1": {
@@ -74,9 +74,9 @@ Sample file:
 		}
 	}
 }
-```json
+```
 
-
+### Gulp usage
 ```js
 var aemUtils = require("aem-utils");
 
@@ -86,7 +86,7 @@ gulp.task("build-clientlibs", function () {
     .pipe(gulp.dest("../Users/skhare/dev/client-libs/"));
 	});
 	
-```
+```js
 
 
 ## API
