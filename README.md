@@ -77,7 +77,8 @@ Sample config json:
 ```
 
 ### Gulp usage
-```js
+
+```
 var aemUtils = require("aem-utils");
 
 gulp.task("build-clientlibs", function () {
@@ -86,7 +87,7 @@ gulp.task("build-clientlibs", function () {
     .pipe(gulp.dest("../Users/skhare/dev/client-libs/"));
 	});
 	
-```js
+```
 
 
 ## API
