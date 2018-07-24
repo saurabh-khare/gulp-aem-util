@@ -10,7 +10,8 @@ var aemsync = require("./lib/utils");
 module.exports = function(options) {
    options = options || {};
    const DEFAULT_ROOT = "root/";
-   const libroot = options.root || DEFAULT_ROOT;
+   options.root = options.root || DEFAULT_ROOT;
+   options.debug = options.debug || false;
 
  return through.obj(function(file, encoding, callback) {
   if (file.isNull()) {
@@ -26,29 +27,37 @@ if (file.isStream()) {
     var libConfig = clientLibObj.clientLibsConfig;
     
     //Clean the client libs root
-    if(libroot !== DEFAULT_ROOT){
-	  console.log("Cleaning root directory: " + libroot);
+    if(options.root !== DEFAULT_ROOT){
+      if(options.debug === true){
+        console.log("Cleaning root directory: " +  options.root);
+      }	  
       del.sync([
-        libroot
+        options.root
       ], {force: true});
     }
     
     //Generate *.txt files for client libraries
-	console.debug("Generating text files for libraries");
-    var libFiles = aemsync.generateClientLibFiles(libConfig, libroot);
+    if(options.debug === true){
+      console.debug("Generating text files for libraries");
+    }	
+    var libFiles = aemsync.generateClientLibFiles(libConfig, options);
     libFiles.descriptors.forEach((libFile) => {
       this.push(libFile);
     });
 
     //Copy actual client library files using gulp pipes
-	console.debug("Pushing library files to gulp stream");
+    if(options.debug === true){
+      console.debug("Pushing library files to gulp stream");
+    }	
     libFiles.fileCollection.forEach((clFile) => {
       this.push(clFile);
     });
 
     //Generate content descriptor file for client libraries
-	console.debug("Generating .content.xml files");
-    var contentFiles = aemsync.generateConfigFiles(libConfig, libroot);
+    if(options.debug === true){
+      console.debug("Generating .content.xml files");
+    }	
+    var contentFiles = aemsync.generateConfigFiles(libConfig,  options.root);
     contentFiles.forEach((contentFile) => {
       this.push(contentFile);
     });
