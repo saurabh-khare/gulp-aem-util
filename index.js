@@ -7,9 +7,6 @@ var PluginError = require('plugin-error');
 var del = require("del");
 var aemsync = require("./lib/utils");
 
-
-// file can be a vinyl file object or a string
-// when a string it will construct a new one
 module.exports = function(options) {
    options = options || {};
    const DEFAULT_ROOT = "root/";
@@ -30,28 +27,32 @@ if (file.isStream()) {
     
     //Clean the client libs root
     if(libroot !== DEFAULT_ROOT){
+	  console.log("Cleaning root directory: " + libroot);
       del.sync([
         clientLibObj.clientLibsRoot
       ], {force: true});
     }
     
     //Generate *.txt files for client libraries
+	console.debug("Generating text files for libraries");
     var libFiles = aemsync.generateClientLibFiles(libConfig, libroot);
     libFiles.descriptors.forEach((libFile) => {
       this.push(libFile);
     });
 
     //Copy actual client library files using gulp pipes
+	console.debug("Pushing library files to gulp stream");
     libFiles.fileCollection.forEach((clFile) => {
       this.push(clFile);
     });
 
     //Generate content descriptor file for client libraries
+	console.debug("Generating .content.xml files");
     var contentFiles = aemsync.generateConfigFiles(libConfig, libroot);
     contentFiles.forEach((contentFile) => {
       this.push(contentFile);
     });
-
+	
     callback();
 }
 });
