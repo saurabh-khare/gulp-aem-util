@@ -29,7 +29,7 @@ if (file.isStream()) {
     if(libroot !== DEFAULT_ROOT){
 	  console.log("Cleaning root directory: " + libroot);
       del.sync([
-        clientLibObj.clientLibsRoot
+        libroot
       ], {force: true});
     }
     
