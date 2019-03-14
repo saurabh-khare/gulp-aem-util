@@ -30,10 +30,13 @@ if (file.isStream()) {
     if(options.root !== DEFAULT_ROOT){
       if(options.debug === true){
         console.log("Cleaning root directory: " +  options.root);
-      }	  
-      del.sync([
-        options.root
-      ], {force: true});
+      }
+      //Remove old client libraries	  
+      Object.keys(libConfig).forEach(e => {
+        del.sync([
+          options.root + e
+        ], {force: true});
+      });
     }
     
     //Generate *.txt files for client libraries
