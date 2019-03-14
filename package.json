@@ -1,6 +1,6 @@
 {
   "name": "aem-utils",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A Gulp plugin to perform set of activities like generating client libraries for projects on Adobe Experience Manager",
   "main": "index.js",
   "directories": {
